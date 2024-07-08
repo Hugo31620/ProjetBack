@@ -1,27 +1,27 @@
 const http = require('http');
 const app = require('./app');
 
-const normalizePort = val => {
-  const port = parseInt(val, 10);
+const normalizePort = val => { // prend une valeur et la renvoie
+  const port = parseInt(val, 10); 
 
-  if (isNaN(port)) {
+  if (isNaN(port)) { // valeur d'origine
     return val;
   }
-  if (port >= 0) {
+  if (port >= 0) { // nombre 
     return port;
   }
-  return false;
+  return false; // nombre negatif
 };
-const port = normalizePort(process.env.PORT ||'4000');
-app.set('port', port);
+const port = normalizePort(process.env.PORT ||'4000'); // port défini ou 4000
+app.set('port', port); // Définit le port de l'application
 
-const errorHandler = error => {
+const errorHandler = error => { // gère les erreurs liées a l'écoute du serveur
   if (error.syscall !== 'listen') {
-    throw error;
+    throw error; // Si l'erreur n'est pas liée à l'écoute (listen), elle est lancée à nouveau
   }
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
-  switch (error.code) {
+  const address = server.address(); // Récupère l'adresse
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port; // crée une chaine de caractère pour l'adresse serv
+  switch (error.code) { // quitte le processus en fonction de l'erreur
     case 'EACCES':
       console.error(bind + ' requires elevated privileges.');
       process.exit(1);
@@ -35,13 +35,13 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const server = http.createServer(app); // Crée le serveur http
 
-server.on('error', errorHandler);
-server.on('listening', () => {
+server.on('error', errorHandler); // gestionnaire d'erreur 
+server.on('listening', () => { // Ecoute les requetes : recupère adresse + crée chaine de caractère ( port du serveur )
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);
 });
 
-server.listen(port);
+server.listen(port); // ecoute les requete du port
